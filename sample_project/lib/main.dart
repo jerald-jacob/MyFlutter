@@ -1,103 +1,1073 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter_widget_guide/utils.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-void main() => runApp(MyApp());
+
+void main() {
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My Flutter ',
-      theme: ThemeData(
-
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+    return new MaterialApp(
+      home: TableWidget(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class TableWidget extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TableWidgetState createState() => _TableWidgetState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class _TableWidgetState extends State<TableWidget> {
+  bool _isBorderEnabled = false;
+  var _actionIcon = Icons.border_all;
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+        centerTitle: true,
+        title: Container(
+          child: Text(
+            'Table Widget',
+            style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              //      fontFamily: Utils.ubuntuRegularFont
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+          ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(_actionIcon),
+            onPressed: () => setState(() {
+              _isBorderEnabled == false
+                  ? _isBorderEnabled = true
+                  : _isBorderEnabled = false;
+
+              _isBorderEnabled
+                  ? _actionIcon = Icons.border_clear
+                  : _actionIcon = Icons.border_all;
+            }),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body:
+      Row
+        (
+        children: <Widget>[
+          SizedBox(
+width: 50,
+          ),
+          Expanded(
+           // width: 1500,
+            child:  SingleChildScrollView(
+                padding: EdgeInsets.only(top: 12),
+                child:
+                Container(
+                  width: 500,
+                  height: 1500,
+                  child: Table(
+                    border: _isBorderEnabled ? TableBorder.all() : null,
+                    defaultVerticalAlignment: TableCellVerticalAlignment.top,
+                    children: <TableRow>[
+                      ///First table row with 3 children
+                      TableRow(children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                      ///Second table row with 3 children
+                      TableRow(children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                      TableRow(children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                      ///Second table row with 3 children
+                      TableRow(children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                      TableRow(children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                      ///Second table row with 3 children
+                      TableRow(children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                      TableRow(children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                      ///Second table row with 3 children
+                      TableRow(children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  // fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            color: Colors.red,
+                            width: 50.0,
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Row 1 \n Element 3",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 6.0,
+                                  //      fontFamily: Utils.ubuntuRegularFont
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                    ],
+                  ),
+                ),
+
+                scrollDirection: Axis.horizontal
+            ),
+          ),
+
+
+        ],
+      )
+
     );
   }
 }
